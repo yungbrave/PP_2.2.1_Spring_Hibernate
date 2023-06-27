@@ -32,7 +32,7 @@ public class UserDaoImp implements UserDao {
     }
 
     @Override
-    public User getUserByModel(String model) {
+    public User getUserByModelAndSeries(String model, int series) {
 //        List<Car> cars = sessionFactory.getCurrentSession()
 //                .createQuery("from Car where model = model", Car.class).list();
 
@@ -41,19 +41,11 @@ public class UserDaoImp implements UserDao {
 //            users.add(car.getUser());
 //        }
         User user = sessionFactory.getCurrentSession()
-                .createQuery("select u from User u inner join u.car where Car.model = 'model'", User.class)
+                .createQuery("select u from User u where " +
+                        "u.car.model = :model and u.car.series = :series", User.class)
+                .setParameter("model", model).setParameter("series", series)
                 .getSingleResult();
         return user;
     }
 
-    @Override
-    public List<User> getUserBySeries(int series) {
-        List<Car> cars = sessionFactory.getCurrentSession().
-                createQuery("from Car where series = series", Car.class).list();
-        List<User> users = new ArrayList<>();
-        for (Car car: cars) {
-            users.add(car.getUser());
-        }
-        return users;
-    }
 }
