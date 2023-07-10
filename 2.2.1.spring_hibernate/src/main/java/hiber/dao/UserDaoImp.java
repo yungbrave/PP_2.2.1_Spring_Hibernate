@@ -33,17 +33,18 @@ public class UserDaoImp implements UserDao {
 
     @Override
     public User getUserByModel(String model) {
-//        List<Car> cars = sessionFactory.getCurrentSession()
+
+        User user = sessionFactory.getCurrentSession()
+                .createQuery("select u from User u inner join u.car where Car.model = :model", User.class)
+                .setParameter("model", model).getSingleResult();
+        return user;
+        //        List<Car> cars = sessionFactory.getCurrentSession()
 //                .createQuery("from Car where model = model", Car.class).list();
 
 //        List<User> users = new ArrayList<>();
 //        for (Car car: cars) {
 //            users.add(car.getUser());
 //        }
-        User user = sessionFactory.getCurrentSession()
-                .createQuery("select u from User u inner join u.car where Car.model = 'model'", User.class)
-                .getSingleResult();
-        return user;
     }
 
     @Override
