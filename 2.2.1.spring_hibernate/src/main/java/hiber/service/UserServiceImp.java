@@ -12,7 +12,7 @@ import java.util.List;
 public class UserServiceImp implements UserService {
 
 
-    private UserDao userDao;
+    private final UserDao userDao;
 
     @Autowired
     public UserServiceImp(UserDao userDao) {
@@ -31,7 +31,7 @@ public class UserServiceImp implements UserService {
         return userDao.listUsers();
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public User getUserByModelAndSeries(String model, int series) {
         return userDao.getUserByModelAndSeries(model, series);
