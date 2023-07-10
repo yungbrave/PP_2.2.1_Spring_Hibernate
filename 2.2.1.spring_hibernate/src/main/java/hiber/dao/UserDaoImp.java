@@ -32,6 +32,7 @@ public class UserDaoImp implements UserDao {
     }
 
     @Override
+<<<<<<< HEAD
     public User getUserByModel(String model) {
 
         User user = sessionFactory.getCurrentSession()
@@ -39,22 +40,25 @@ public class UserDaoImp implements UserDao {
                 .setParameter("model", model).getSingleResult();
         return user;
         //        List<Car> cars = sessionFactory.getCurrentSession()
+=======
+    public User getUserByModelAndSeries(String model, int series) {
+//        List<Car> cars = sessionFactory.getCurrentSession()
+>>>>>>> bdf29bcb2ef112249f7bee86035ef7d7d39cf94a
 //                .createQuery("from Car where model = model", Car.class).list();
 
 //        List<User> users = new ArrayList<>();
 //        for (Car car: cars) {
 //            users.add(car.getUser());
 //        }
+<<<<<<< HEAD
+=======
+        User user = sessionFactory.getCurrentSession()
+                .createQuery("select u from User u where " +
+                        "u.car.model = :model and u.car.series = :series", User.class)
+                .setParameter("model", model).setParameter("series", series)
+                .getSingleResult();
+        return user;
+>>>>>>> bdf29bcb2ef112249f7bee86035ef7d7d39cf94a
     }
 
-    @Override
-    public List<User> getUserBySeries(int series) {
-        List<Car> cars = sessionFactory.getCurrentSession().
-                createQuery("from Car where series = series", Car.class).list();
-        List<User> users = new ArrayList<>();
-        for (Car car: cars) {
-            users.add(car.getUser());
-        }
-        return users;
-    }
 }

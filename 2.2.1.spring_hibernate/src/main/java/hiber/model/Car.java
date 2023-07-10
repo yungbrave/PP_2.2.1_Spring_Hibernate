@@ -8,8 +8,8 @@ import java.io.Serializable;
 public class Car {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "model")
@@ -17,12 +17,16 @@ public class Car {
 
     @Column(name = "series")
     private int series;
-    @OneToOne(mappedBy = "car")
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    public Car() {}
+    public Car() {
+    }
 
-    public Car(String model, int series) {
+    public Car(String model, int series, User user) {
+        this.user = user;
         this.model = model;
         this.series = series;
     }
@@ -33,6 +37,14 @@ public class Car {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getModel() {
@@ -51,19 +63,10 @@ public class Car {
         this.series = series;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     @Override
     public String toString() {
         return "Car{" +
-                "id=" + id +
-                ", model='" + model + '\'' +
+                "model='" + model + '\'' +
                 ", series=" + series +
                 '}';
     }
